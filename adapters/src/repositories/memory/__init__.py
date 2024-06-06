@@ -1,0 +1,1 @@
+from .MemoryHotelRepository import MemoryHotelRepository

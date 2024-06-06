@@ -1,0 +1,1 @@
+from .list_hotels_usecase import ListAll
