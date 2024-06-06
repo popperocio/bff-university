@@ -1,0 +1,12 @@
+[tool.poetry]
+name = "bff"
+version = "0.1.0"
+description = "Backend for frontend"
+authors = ["Rocio Poppe"]
+
+[tool.poetry.dependencies]
+python = "^3.9.14"
+pytest = "^7.4.0"
+fastapi = "^0.103.1"
+uvicorn = {extras = ["standard"], version = "^0.22.0"}
+sqlalchemy = "^2.0.17"
