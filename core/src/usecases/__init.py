@@ -1,1 +1,1 @@
-from .hotels import ListAll
+from .hotels import ListAll, ListHotelResponse

@@ -1,1 +1,1 @@
-from .list_hotels_usecase import ListAll
+from .list import ListAll, ListHotelResponse

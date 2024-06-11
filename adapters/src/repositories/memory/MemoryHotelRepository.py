@@ -10,4 +10,7 @@ class MemoryHotelRepository(HotelRepository):
         self.hotels = []
 
     def list_all(self) -> List[Hotel]:
-        pass
+        try:
+            return self.hotels
+        except Exception:
+            NotImplementedError

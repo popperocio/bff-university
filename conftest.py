@@ -1,3 +1,3 @@
 pytest_plugins = [
-    "core.tests"
+    "core.tests.factory.hotel",
 ]

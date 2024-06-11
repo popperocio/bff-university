@@ -1,4 +1,5 @@
 from core.src.repositories import HotelRepository
+from .response import ListHotelResponse
 
 class ListAll:
     def __init__(self, hotel_repository: HotelRepository):
@@ -7,6 +8,6 @@ class ListAll:
     def execute(self):
         try:
             repository_hotel = self.hotel_repository.list_all()
-            return repository_hotel
+            return ListHotelResponse(hotels=repository_hotel)
         except:
             pass
