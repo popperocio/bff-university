@@ -1,5 +1,6 @@
 from typing import List
 
+from core.src.exceptions import HotelRepositoryException
 from core.src.models import Hotel
 from core.src.repositories import HotelRepository
 
@@ -13,4 +14,4 @@ class MemoryHotelRepository(HotelRepository):
         try:
             return self.hotels
         except Exception:
-            NotImplementedError
+           raise HotelRepositoryException("List All")
