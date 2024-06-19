@@ -1,1 +1,1 @@
-from .repositories import MemoryHotelRepository
+from .repositories import MemoryHotelRepository, RapidApiRepository

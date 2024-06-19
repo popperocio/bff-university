@@ -6,9 +6,9 @@ class ListAll:
     def __init__(self, hotel_repository: HotelRepository):
         self.hotel_repository = hotel_repository
 
-    def execute(self):
+    async def execute(self):
         try:
-            repository_hotel = self.hotel_repository.list_all()
+            repository_hotel = await self.hotel_repository.list_all()
             return ListHotelResponse(hotels=repository_hotel)
         except HotelRepositoryException as error:
             raise HotelBusinessException(str(error))

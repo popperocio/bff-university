@@ -10,7 +10,7 @@ class MemoryHotelRepository(HotelRepository):
     def __init__(self) -> None:
         self.hotels = []
 
-    def list_all(self) -> List[Hotel]:
+    async def list_all(self) -> List[Hotel]:
         try:
             return self.hotels
         except Exception:
