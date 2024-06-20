@@ -1,2 +1,2 @@
 from .base import RepositoryException
-from .hotel import HotelRepositoryException
+from .hotel import HotelRepositoryException, RapidApiRepositoryException

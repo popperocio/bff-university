@@ -1,2 +1,2 @@
-from .business import HotelBusinessException
-from .repository import HotelRepositoryException
+from .business import HotelBusinessException, ExternalServiceException
+from .repository import HotelRepositoryException, RapidApiRepositoryException
