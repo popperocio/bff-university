@@ -1,8 +1,7 @@
 from typing import Any, Callable
 
-from faker import Faker
-from pytest import fixture
 import pytest
+from faker import Faker
 
 from core.src.models import Hotel
 
@@ -19,8 +18,8 @@ def hotel_factory(
                     "hotel_name": faker.word(),
                     "hotel_price": faker.random_int(),
                     "hotel_address": faker.word(),
-                    "hotel_rating": faker.random_int(1,5),
-                    "amenities": [faker.random_int]
+                    "hotel_rating": faker.random_int(1, 5),
+                    "amenities": [faker.random_int],
                 },
                 **kwargs,
             }

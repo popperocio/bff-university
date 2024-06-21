@@ -3,22 +3,21 @@ from typing import Callable
 import pytest
 from pytest_mock import MockerFixture
 
-from core.src.exceptions import HotelRepositoryException, HotelBusinessException, RapidApiRepositoryException
-from core.src.models import Hotel
+from core.src.exceptions import (HotelRepositoryException,
+                                 RapidApiRepositoryException)
+
 
 @pytest.mark.asyncio
 async def test__rapid_api_repository_list_all_hotel_returns_hotels_when_succesful_connection(
-    set_up_rapid_api_instance: Callable,
-    mocker: MockerFixture,
-    expected_hotel
+    set_up_rapid_api_instance: Callable, mocker: MockerFixture, expected_hotel
 ):
     mocker.patch(
         "adapters.src.repositories.rapid_api.rapid_api_repository.RapidApiRepository.list_all",
         return_value=expected_hotel,
     )
     rapid_api_repository = set_up_rapid_api_instance()
-    hotel= await rapid_api_repository.list_all()
-    
+    hotel = await rapid_api_repository.list_all()
+
     assert expected_hotel == hotel
 
 
@@ -51,7 +50,7 @@ async def test__rapid_api_repository_list_all_throws_exception_on_rapid_api_fail
 
     exception_to_raise = RapidApiRepositoryException(
         service_error_code=mock_response.status_code,
-        service_error_message={"message": mock_response.text}
+        service_error_message={"message": mock_response.text},
     )
 
     mocker.patch(
@@ -65,4 +64,7 @@ async def test__rapid_api_repository_list_all_throws_exception_on_rapid_api_fail
         await rapid_api_repository.list_all()
 
     assert captured_exception.value.service_error_code == 400
-    assert captured_exception.value.service_error_message == exception_to_raise.service_error_message
+    assert (
+        captured_exception.value.service_error_message
+        == exception_to_raise.service_error_message
+    )

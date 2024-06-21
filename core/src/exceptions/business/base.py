@@ -1,5 +1,5 @@
 class BusinessException(Exception):
-  pass
+    pass
 
 
 class ExternalServiceException(BusinessException):

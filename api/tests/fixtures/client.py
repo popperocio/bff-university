@@ -2,10 +2,10 @@ import os
 from typing import Callable
 
 import pytest
-from api.routers import hotels
 from fastapi import FastAPI
 from fastapi.testclient import TestClient
 
+from api.routers import hotels
 
 
 @pytest.fixture

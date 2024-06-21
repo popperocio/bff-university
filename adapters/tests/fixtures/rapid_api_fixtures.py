@@ -10,4 +10,5 @@ from factories.repositories import rapid_api_repository
 def set_up_rapid_api_instance() -> Callable:
     def _factory() -> RapidApiRepository:
         return rapid_api_repository()
+
     return _factory

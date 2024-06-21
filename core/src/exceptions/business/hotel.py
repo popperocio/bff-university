@@ -1,7 +1,8 @@
 from .base import BusinessException
 
+
 class HotelBusinessException(BusinessException):
-  """Hotel Business exception"""
+    """Hotel Business exception"""
 
 
 class NotFoundException(BusinessException):

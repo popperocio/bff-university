@@ -1,9 +1,11 @@
-
 import json
-from core.src.exceptions import HotelRepositoryException, RapidApiRepositoryException
-from core.src.repositories import HotelRepository
-from core.src.utils import RestClient, HttpStatus
+
+from core.src.exceptions import (HotelRepositoryException,
+                                 RapidApiRepositoryException)
 from core.src.helpers import ParseHotelsRapidApi
+from core.src.repositories import HotelRepository
+from core.src.utils import HttpStatus, RestClient
+
 
 class RapidApiRepository(HotelRepository):
     def __init__(
@@ -16,13 +18,15 @@ class RapidApiRepository(HotelRepository):
         self.client = client(
             base_url=rapid_api_url,
             default_headers={
-                'x-rapidapi-key': rapid_api_key,
-                'x-rapidapi-host': rapid_api_host
+                "x-rapidapi-key": rapid_api_key,
+                "x-rapidapi-host": rapid_api_host,
             },
         )
 
     async def list_all(self) -> dict:
-        response = await self.client.get(endpoint="/v2/hotels/downloadHotels?limit=10&language=en-US")
+        response = await self.client.get(
+            endpoint="/v2/hotels/downloadHotels?limit=10&language=en-US"
+        )
         try:
             hotels = response.text
             if response.status_code != HttpStatus.OK:

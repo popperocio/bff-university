@@ -1,9 +1,9 @@
 # type: ignore
 import asyncio
 from functools import partial
+from typing import Dict, Optional
 
 import requests
-from typing import Optional, Dict
 
 
 class RestClient:

@@ -20,4 +20,6 @@ class RepositoryConfig:
 
     @classmethod
     def _get_repository_instances(cls) -> dict:
-        raise NotImplementedError("Subclasses must implement _create_repository_instances.")
+        raise NotImplementedError(
+            "Subclasses must implement _create_repository_instances."
+        )
