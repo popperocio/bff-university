@@ -8,7 +8,7 @@ class ListAll:
 
     async def execute(self):
         try:
-            repository_hotel = await self.hotel_repository.list_all()
-            return ListHotelResponse(hotels=repository_hotel)
+            hotels_response = await self.hotel_repository.list_all()
+            return ListHotelResponse(hotels=hotels_response)
         except HotelRepositoryException as error:
             raise HotelBusinessException(str(error))

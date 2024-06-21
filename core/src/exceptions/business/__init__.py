@@ -1,2 +1,2 @@
 from .base import BusinessException, ExternalServiceException
-from .hotel import HotelBusinessException
+from .hotel import HotelBusinessException, NotFoundException
