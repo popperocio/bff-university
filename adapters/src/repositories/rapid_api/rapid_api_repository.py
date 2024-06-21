@@ -22,7 +22,7 @@ class RapidApiRepository(HotelRepository):
         )
 
     async def list_all(self) -> dict:
-        response = await self.client.get(endpoint="/v2/hotels/downloadHotels?limit=2&language=en-US")
+        response = await self.client.get(endpoint="/v2/hotels/downloadHotels?limit=10&language=en-US")
         try:
             hotels = response.text
             if response.status_code != HttpStatus.OK:

@@ -20,6 +20,7 @@ async def list_all_hotels(
         list_hotels_response = await hotels_use_case.execute()
         if not list_hotels_response:
             raise NotFoundException("Hotels not found")
+        return list_hotels_response
     except BusinessException as e:
         raise HTTPException(detail=e.__str__(), status_code=status.HTTP_400_BAD_REQUEST)
     except RepositoryException as e:
