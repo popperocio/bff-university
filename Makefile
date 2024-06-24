@@ -10,3 +10,9 @@ create-venv:
 start-app:
 	export PYTHONPATH=$(pwd):$PYTHONPATH
 	poetry run uvicorn main:app
+
+format:
+	autoflake --remove-all-unused-imports --remove-unused-variables --recursive --in-place . --exclude=__init__.py,venv,.venv;
+	black adapters/ api/ core/ factories/
+	isort  adapters/ api/ core/ factories/
+	flake8  adapters/ api/ core/ factories/
