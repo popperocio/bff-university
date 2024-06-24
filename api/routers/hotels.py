@@ -3,7 +3,7 @@ from fastapi import APIRouter, Depends, HTTPException, status
 from core.src.exceptions import (BusinessException, NotFoundException,
                                  RepositoryException)
 from core.src.usecases.hotels import ListAll
-from factories.use_cases.hotel import list_hotel_use_case
+from factories.usecases.hotel import list_hotel_use_case
 
 router = APIRouter(
     tags=["hotels"],

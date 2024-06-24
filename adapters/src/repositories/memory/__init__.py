@@ -1,1 +1,2 @@
 from .MemoryHotelRepository import MemoryHotelRepository
+from .MemoryReservationRepository import MemoryReservationRepository

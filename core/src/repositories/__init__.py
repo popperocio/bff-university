@@ -1,1 +1,2 @@
 from .HotelRepository import HotelRepository
+from .ReservationRepository import ReservationRepository
