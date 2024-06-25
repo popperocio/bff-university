@@ -1,5 +1,6 @@
 from typing import Collection, List
 from core.src import ReservationRequest
+from core.src.exceptions import ReservationRepositoryException
 from pymongo import MongoClient
 
 from core.src.repositories import ReservationRepository
@@ -15,5 +16,5 @@ class MongoDBReservationRepository(ReservationRepository):
             response = self.collection.insert_one(reservation.dict())
             reservation_id = str(response.inserted_id) 
             return reservation_id
-        except Exception as e:
-            raise e
+        except Exception:
+            raise ReservationRepositoryException("Create Reservation")
