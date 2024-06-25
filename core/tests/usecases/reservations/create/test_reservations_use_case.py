@@ -2,6 +2,7 @@ from typing import Callable
 
 import pytest
 
+from core.src.exceptions import ReservationBusinessException, ReservationRepositoryException
 from core.src.repositories import ReservationRepository
 from core.src import CreateReservation, ReservationResponse
 from factories.repositories import memory_reservation_repository
@@ -35,3 +36,25 @@ class TestCreateReservation:
         
     
         assert response == expected_response
+
+
+    @pytest.mark.asyncio
+    async def test_should_raise_business_exception_when_there_is_an_error(self, mocker, reservation_factory: Callable,):
+        reservation_repository: ReservationRepository = memory_reservation_repository()
+        reservation_request= reservation_factory()
+        create_reservation_use_case = CreateReservation(reservation_repository)
+        
+        mocker.patch.object(
+            reservation_repository,
+            "create_reservation",
+            side_effect=ReservationRepositoryException("Create Reservation"),
+        )
+
+        with pytest.raises(ReservationBusinessException) as captured_exception:
+            await create_reservation_use_case.execute(reservation_request)
+        
+    
+        assert (
+            str(captured_exception.value)
+            == "Exception while executing Create Reservation in Reservation"
+        )

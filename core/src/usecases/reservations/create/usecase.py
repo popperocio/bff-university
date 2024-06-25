@@ -1,3 +1,5 @@
+from core.src.exceptions import (ReservationBusinessException,
+                                 ReservationRepositoryException)
 from core.src.repositories import ReservationRepository
 from .response import ReservationResponse
 from .request import ReservationRequest
@@ -22,6 +24,5 @@ class CreateReservation:
                     number_of_guests=request.number_of_guests,
                     price= request.price
             )
-        except Exception as error:
-            print(error)
-            pass
+        except ReservationRepositoryException as error:
+            raise ReservationBusinessException(str(error))
