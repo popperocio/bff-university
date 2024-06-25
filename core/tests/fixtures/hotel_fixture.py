@@ -15,5 +15,8 @@ def expected_hotel() -> Hotel:
         hotel_address=faker.word(),
         hotel_rating=faker.random_int(1, 5),
         amenities=[faker.random_int(), faker.random_int()],
+        hotel_city= faker.word(),
+        hotel_image= faker.word(),
+        hotel_country= faker.word(),
     )
     return expected_hotel

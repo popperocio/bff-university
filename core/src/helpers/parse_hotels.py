@@ -29,6 +29,9 @@ class ParseHotelsRapidApi:
                     else None
                 ),
                 "amenities": hotel_info.get("amenity_codes"),
+                "hotel_city": hotel_info.get("city"),
+                "hotel_image": hotel_info.get("thumbnail"),
+                "hotel_country": hotel_info.get("country")
             }
             hotels_result.append(hotel)
         return hotels_result

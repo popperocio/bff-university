@@ -8,3 +8,6 @@ class Hotel(NamedTuple):
     hotel_address: Optional[str]
     hotel_rating: Optional[float]
     amenities: Optional[int]
+    hotel_city: str
+    hotel_image: str
+    hotel_country: str
