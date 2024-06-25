@@ -1,6 +1,8 @@
 from abc import ABC, abstractmethod
 
-from ..usecases.reservations import ReservationResponse, ReservationRequest
+from ..usecases.reservations import ReservationRequest, ReservationResponse
+
+
 class ReservationRepository(ABC):
 
     @abstractmethod

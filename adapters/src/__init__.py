@@ -1,1 +1,2 @@
-from .repositories import MemoryHotelRepository, RapidApiRepository, MemoryReservationRepository, MongoDBReservationRepository
+from .repositories import (MemoryHotelRepository, MemoryReservationRepository,
+                           MongoDBReservationRepository, RapidApiRepository)

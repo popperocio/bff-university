@@ -1,8 +1,9 @@
+from datetime import date, timedelta
 from typing import Any, Callable
 
 import pytest
 from faker import Faker
-from datetime import date, timedelta
+
 from core.src import ReservationRequest
 
 
@@ -12,9 +13,14 @@ def reservation_factory(
 ) -> Callable:
     def _factory(**kwargs: Any) -> ReservationRequest:
         today = date.today()
-        checkin_date = faker.date_between(start_date=today, end_date=today + timedelta(days=30))
-        checkout_date = faker.date_between(start_date=checkin_date + timedelta(days=1), end_date=checkin_date + timedelta(days=15))
-        
+        checkin_date = faker.date_between(
+            start_date=today, end_date=today + timedelta(days=30)
+        )
+        checkout_date = faker.date_between(
+            start_date=checkin_date + timedelta(days=1),
+            end_date=checkin_date + timedelta(days=15),
+        )
+
         return ReservationRequest(
             **{
                 **{

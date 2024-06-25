@@ -1,20 +1,25 @@
 from typing import List
 
-from core.src.exceptions import ReservationConflictException, ReservationRepositoryException
+from core.src.exceptions import (ReservationConflictException,
+                                 ReservationRepositoryException)
 from core.src.models import Reservation
-from core.src.usecases.reservations import ReservationRequest, ReservationResponse
 from core.src.repositories import ReservationRepository
+from core.src.usecases.reservations import (ReservationRequest,
+                                            ReservationResponse)
+
 
 class MemoryReservationRepository(ReservationRepository):
 
     reservations: List[Reservation]
     current_id = str
-    
-    def __init__(self) -> None:
-        self.reservations= []
-        self.current_id="1"
 
-    async def create_reservation(self, request: ReservationRequest) -> ReservationResponse:
+    def __init__(self) -> None:
+        self.reservations = []
+        self.current_id = "1"
+
+    async def create_reservation(
+        self, request: ReservationRequest
+    ) -> ReservationResponse:
         try:
             reservation_id = self.current_id
             self.current_id = str(int(self.current_id) + 1)
@@ -31,13 +36,14 @@ class MemoryReservationRepository(ReservationRepository):
                 number_of_guests=request.number_of_guests,
             )
             if self._has_conflict(new_reservation):
-                raise ReservationConflictException("Room already booked for the given dates")
+                raise ReservationConflictException(
+                    "Room already booked for the given dates"
+                )
 
             self.reservations.append(new_reservation)
             return reservation_id
-        except Exception as e:
+        except Exception:
             ReservationRepositoryException("Create Reservation")
-
 
     def _has_conflict(self, new_reservation: Reservation) -> bool:
         """Check if there is a conflict with existing reservations."""

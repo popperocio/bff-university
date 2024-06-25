@@ -1,3 +1,3 @@
 from .memory import MemoryHotelRepository, MemoryReservationRepository
-from .rapid_api import RapidApiRepository
 from .mongodb_repository import MongoDBReservationRepository
+from .rapid_api import RapidApiRepository

@@ -1,8 +1,8 @@
 from fastapi import APIRouter, Depends, HTTPException, status
 
-from core.src.exceptions import (BusinessException, NotFoundException,
-                                 RepositoryException)
-from core.src.usecases.reservations import CreateReservation, ReservationRequest
+from core.src.exceptions import BusinessException, RepositoryException
+from core.src.usecases.reservations import (CreateReservation,
+                                            ReservationRequest)
 from factories.usecases.reservation import create_reservation_use_case
 
 router = APIRouter(
@@ -14,7 +14,9 @@ router = APIRouter(
 @router.post("/")
 async def create_reservation(
     request: ReservationRequest,
-    create_reservation_use_case: CreateReservation = Depends(create_reservation_use_case),
+    create_reservation_use_case: CreateReservation = Depends(
+        create_reservation_use_case
+    ),
 ):
     try:
         create_reservation_response = await create_reservation_use_case.execute(request)

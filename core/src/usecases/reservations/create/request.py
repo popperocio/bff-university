@@ -1,6 +1,7 @@
-from typing import NamedTuple, Optional
-from datetime import date
+from typing import Optional
+
 from pydantic import BaseModel
+
 
 class ReservationRequest(BaseModel):
     hotel_id: int
@@ -12,4 +13,3 @@ class ReservationRequest(BaseModel):
     checkout_date: str
     number_of_guests: int
     price: Optional[float]
-
