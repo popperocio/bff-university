@@ -12,6 +12,8 @@ class CreateReservation:
     async def execute(self, request: ReservationRequest):
         try:
             reservation_response = await self.reservation_repository.create_reservation(request)
+            if not reservation_response:
+                raise ReservationBusinessException("Failed to create reservation")
             return ReservationResponse(
                     reservation_id=reservation_response,
                     hotel_id= request.hotel_id,

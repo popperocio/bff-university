@@ -1,7 +1,7 @@
 from typing import Callable
 
 import pytest
-from core.src.exceptions.repository.reservation import ReservationRepositoryException
+from core.src.exceptions import ReservationRepositoryException, ReservationConflictException
 from pytest_mock import MockerFixture
 
 
@@ -39,3 +39,20 @@ async def test__mongo_db_repository_create_reservation_throws_exception_on_failu
     assert str(captured_exception.value) == expected_exception_message
 
 
+@pytest.mark.asyncio
+async def test_mongo_db_reservation_repository_conflict_handling(
+    set_up_mongo_db_instance: Callable, mocker: MockerFixture, reservation_factory: Callable
+):
+    mongo_db_repository = set_up_mongo_db_instance()
+    reservation= reservation_factory()
+    expected_exception_message = "Room already booked for the given dates"
+    
+    mocker.patch(
+        "adapters.src.repositories.mongodb_repository.mongo_db_repository.MongoDBReservationRepository.create_reservation",
+        side_effect=ReservationConflictException(message="Room already booked for the given dates"),
+    )
+
+    with pytest.raises(ReservationConflictException) as exc_info:
+        await mongo_db_repository.create_reservation(reservation)
+
+    assert str(exc_info.value) == expected_exception_message

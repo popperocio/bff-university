@@ -1,5 +1,6 @@
 from typing import List
 
+from core.src.exceptions import ReservationConflictException, ReservationRepositoryException
 from core.src.models import Reservation
 from core.src.usecases.reservations import ReservationRequest, ReservationResponse
 from core.src.repositories import ReservationRepository
@@ -29,7 +30,22 @@ class MemoryReservationRepository(ReservationRepository):
                 checkout_date=request.checkout_date,
                 number_of_guests=request.number_of_guests,
             )
+            if self._has_conflict(new_reservation):
+                raise ReservationConflictException("Room already booked for the given dates")
+
             self.reservations.append(new_reservation)
             return reservation_id
         except Exception as e:
-            print("error memory", e)
+            ReservationRepositoryException("Create Reservation")
+
+
+    def _has_conflict(self, new_reservation: Reservation) -> bool:
+        """Check if there is a conflict with existing reservations."""
+        for existing_reservation in self.reservations:
+            if (
+                existing_reservation.room_id == new_reservation.room_id
+                and existing_reservation.checkin_date <= new_reservation.checkout_date
+                and existing_reservation.checkout_date >= new_reservation.checkin_date
+            ):
+                return True
+        return False
