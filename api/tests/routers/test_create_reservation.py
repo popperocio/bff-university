@@ -6,6 +6,8 @@ from core.src import ReservationResponse, ReservationRequest
 from fastapi.testclient import TestClient
 from pytest_mock import MockerFixture
 
+from core.src.exceptions import (BusinessException,
+                                 RepositoryException)
 
 
 def test_create_reservation_returns_200_status_code_when_reservation_is_stored_successfully(
@@ -17,6 +19,8 @@ def test_create_reservation_returns_200_status_code_when_reservation_is_stored_s
     app = mock_fastapi_app()
     client = TestClient(app)
     request= reservation_factory()
+    data = request.dict()
+    json_data = json.dumps(data)
     expected_response = ReservationResponse(
                     reservation_id="1",
                     hotel_id= request.hotel_id,
@@ -29,8 +33,6 @@ def test_create_reservation_returns_200_status_code_when_reservation_is_stored_s
                     number_of_guests=request.number_of_guests,
                     price= request.price
             )
-    data = request.dict()
-    json_data = json.dumps(data)
 
     mocker.patch(
         "core.src.usecases.reservations.create.usecase.CreateReservation.execute",
@@ -40,3 +42,50 @@ def test_create_reservation_returns_200_status_code_when_reservation_is_stored_s
 
     assert response.status_code == 200
     
+    
+def test_create_reservation_returns_400_status_code_when_business_exception_occurs(
+    mocker: MockerFixture,
+    mock_fastapi_app: Callable,
+    client: TestClient,
+    reservation_factory: Callable
+):
+    app = mock_fastapi_app()
+    client = TestClient(app)
+    request= reservation_factory()
+    data = request.dict()
+    json_data = json.dumps(data)
+    expected_message = {"detail": "Business logic error"}
+    
+    mocker.patch(
+        "core.src.usecases.reservations.create.usecase.CreateReservation.execute",
+        side_effect=BusinessException("Business logic error"),
+    )
+
+    response = client.post(url="/reservation/", data=json_data)
+
+    assert response.status_code == 400
+    assert response.json() == expected_message
+
+
+def test_create_reservation_returns_500_status_code_when_repository_exception_occurs(
+    mocker: MockerFixture,
+    mock_fastapi_app: Callable,
+    client: TestClient,
+    reservation_factory: Callable
+):
+    app = mock_fastapi_app()
+    client = TestClient(app)
+    request= reservation_factory()
+    data = request.dict()
+    json_data = json.dumps(data)
+    expected_message = {"detail": "Exception while executing Create Reservation in Reservation"}
+
+    mocker.patch(
+        "core.src.usecases.reservations.create.usecase.CreateReservation.execute",
+        side_effect=RepositoryException(entity_type="Reservation", method="Create Reservation"),
+    )
+
+    response = client.post(url="/reservation/", data=json_data)
+
+    assert response.status_code == 500
+    assert response.json() == expected_message
