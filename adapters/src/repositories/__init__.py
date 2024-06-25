@@ -1,2 +1,3 @@
-from .memory import MemoryHotelRepository
+from .memory import MemoryHotelRepository, MemoryReservationRepository
+from .mongodb_repository import MongoDBReservationRepository
 from .rapid_api import RapidApiRepository

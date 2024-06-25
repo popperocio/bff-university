@@ -1,1 +1,2 @@
-from .src import HotelRepository, ListAll
+from .src import (CreateReservation, HotelRepository, ListAll,
+                  ReservationRequest, ReservationResponse)
