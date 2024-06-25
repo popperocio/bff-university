@@ -22,7 +22,7 @@ def hotel_factory(
                     "amenities": [faker.random_int],
                     "hotel_city": faker.word(),
                     "hotel_image": faker.word(),
-                    "hotel_country": faker.word()
+                    "hotel_country": faker.word(),
                 },
                 **kwargs,
             }
