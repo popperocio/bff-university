@@ -1,2 +1,2 @@
 from .hotel import memory_hotel_repository, rapid_api_repository
-from .reservation import memory_reservation_repository
+from .reservation import memory_reservation_repository, mongo_db_repository
