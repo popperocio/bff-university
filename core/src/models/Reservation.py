@@ -13,3 +13,4 @@ class Reservation(NamedTuple):
     checkin_date: date
     checkout_date: date
     number_of_guests: int
+    email: str

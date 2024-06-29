@@ -2,9 +2,9 @@ from typing import Callable
 
 import pytest
 
-from core.src import CreateReservation, ReservationRequest, ReservationResponse
+from core.src import CreateReservation, ReservationResponse
 from core.src.exceptions import (ReservationBusinessException,
-                                 ReservationRepositoryException)
+                                 ReservationRepositoryException,ReservationConflictException)
 from core.src.repositories import ReservationRepository
 from factories.repositories import memory_reservation_repository
 
@@ -32,6 +32,7 @@ class TestCreateReservation:
             checkout_date=reservation_request.checkout_date,
             number_of_guests=reservation_request.number_of_guests,
             price=reservation_request.price,
+            email=reservation_request.email
         )
 
         assert response == expected_response
@@ -66,22 +67,9 @@ class TestCreateReservation:
         reservation_repository: ReservationRepository = memory_reservation_repository()
         reservation_request = reservation_factory()
         create_reservation_use_case = CreateReservation(reservation_repository)
-        await reservation_repository.create_reservation(reservation_request)
-        expected_message = "Failed to create reservation"
+        expected_message = "Room already booked for the given dates"
 
-        conflicting_reservation_request = ReservationRequest(
-            hotel_id=reservation_request.hotel_id,
-            user_id=reservation_request.user_id,
-            room_id=reservation_request.room_id,
-            guest_name=reservation_request.guest_name,
-            nights=reservation_request.nights,
-            checkin_date=reservation_request.checkin_date,
-            checkout_date=reservation_request.checkout_date,
-            number_of_guests=reservation_request.number_of_guests,
-            price=reservation_request.price,
-        )
-
-        with pytest.raises(ReservationBusinessException) as captured_exception:
-            await create_reservation_use_case.execute(conflicting_reservation_request)
+        with pytest.raises(ReservationConflictException) as captured_exception:
+            await create_reservation_use_case.execute(reservation_request)
 
         assert str(captured_exception.value) == expected_message
