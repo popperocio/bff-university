@@ -1,4 +1,4 @@
-import datetime
+from dateutil import parser
 from typing import Collection
 
 from pymongo import MongoClient
@@ -20,8 +20,8 @@ class MongoDBReservationRepository(ReservationRepository):
 
     async def create_reservation(self, reservation: ReservationRequest):
         try:
-            checkin_date = datetime.datetime.strptime(reservation.checkin_date, '%a, %d %b %Y %H:%M:%S %Z')
-            checkout_date = datetime.datetime.strptime(reservation.checkout_date, '%a, %d %b %Y %H:%M:%S %Z')
+            checkin_date = parser.parse(reservation.checkin_date)
+            checkout_date = parser.parse(reservation.checkout_date)
             overlapping_reservation = self.collection.find_one(
                 {
                     "room_id": reservation.room_id,
