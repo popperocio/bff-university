@@ -14,4 +14,3 @@ class ReservationRequest(BaseModel):
     number_of_guests: int
     price: Optional[float]
     email: str
-

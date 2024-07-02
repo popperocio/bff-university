@@ -1,11 +1,12 @@
-from dateutil import parser
 from typing import Collection
 
+from dateutil import parser
 from pymongo import MongoClient
 
 from core.src import ReservationRequest
-from core.src.exceptions import (ReservationConflictException,
-                                 ReservationRepositoryException, ReservationBusinessException)
+from core.src.exceptions import (ReservationBusinessException,
+                                 ReservationConflictException,
+                                 ReservationRepositoryException)
 from core.src.repositories import ReservationRepository
 
 
@@ -27,8 +28,8 @@ class MongoDBReservationRepository(ReservationRepository):
                     "room_id": reservation.room_id,
                     "$and": [
                         {"checkin_date": {"$lt": checkout_date}},
-                        {"checkout_date": {"$gt": checkin_date}}
-                    ]
+                        {"checkout_date": {"$gt": checkin_date}},
+                    ],
                 }
             )
             if overlapping_reservation:

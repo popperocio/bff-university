@@ -4,7 +4,8 @@ import pytest
 
 from core.src import CreateReservation, ReservationResponse
 from core.src.exceptions import (ReservationBusinessException,
-                                 ReservationRepositoryException,ReservationConflictException)
+                                 ReservationConflictException,
+                                 ReservationRepositoryException)
 from core.src.repositories import ReservationRepository
 from factories.repositories import memory_reservation_repository
 
@@ -32,7 +33,7 @@ class TestCreateReservation:
             checkout_date=reservation_request.checkout_date,
             number_of_guests=reservation_request.number_of_guests,
             price=reservation_request.price,
-            email=reservation_request.email
+            email=reservation_request.email,
         )
 
         assert response == expected_response

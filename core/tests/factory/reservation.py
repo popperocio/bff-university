@@ -33,7 +33,7 @@ def reservation_factory(
                     "checkin_date": checkin_date.isoformat(),
                     "checkout_date": checkout_date.isoformat(),
                     "number_of_guests": faker.random_int(min=1, max=5),
-                    "email":faker.email(),
+                    "email": faker.email(),
                 },
                 **kwargs,
             }
