@@ -28,6 +28,7 @@ class CreateReservation:
                 checkout_date=request.checkout_date,
                 number_of_guests=request.number_of_guests,
                 price=request.price,
+                email=request.email,
             )
         except ReservationRepositoryException as error:
             raise ReservationBusinessException(str(error))

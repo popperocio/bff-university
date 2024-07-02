@@ -2,6 +2,8 @@ from typing import List
 
 from core.src.exceptions import (ReservationConflictException,
                                  ReservationRepositoryException)
+from core.src.exceptions.business.reservation import \
+    ReservationBusinessException
 from core.src.models import Reservation
 from core.src.repositories import ReservationRepository
 from core.src.usecases.reservations import (ReservationRequest,
@@ -34,6 +36,7 @@ class MemoryReservationRepository(ReservationRepository):
                 checkin_date=request.checkin_date,
                 checkout_date=request.checkout_date,
                 number_of_guests=request.number_of_guests,
+                email=request.email,
             )
             if self._has_conflict(new_reservation):
                 raise ReservationConflictException(
@@ -42,8 +45,8 @@ class MemoryReservationRepository(ReservationRepository):
 
             self.reservations.append(new_reservation)
             return reservation_id
-        except Exception:
-            ReservationRepositoryException("Create Reservation")
+        except ReservationRepositoryException:
+            ReservationBusinessException("Create Reservation")
 
     def _has_conflict(self, new_reservation: Reservation) -> bool:
         """Check if there is a conflict with existing reservations."""

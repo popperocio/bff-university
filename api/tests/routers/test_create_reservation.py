@@ -30,6 +30,7 @@ def test_create_reservation_returns_200_status_code_when_reservation_is_stored_s
         checkout_date=request.checkout_date,
         number_of_guests=request.number_of_guests,
         price=request.price,
+        email=request.email,
     )
 
     mocker.patch(
