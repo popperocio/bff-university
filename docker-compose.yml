@@ -1,0 +1,39 @@
+version: '3.8'
+
+services:
+  app:
+    build: .
+    container_name: bff-final-app-university2.0
+    ports:
+      - "8080:8080"
+    depends_on:
+      - localstack
+    env_file:
+      - .env
+    environment:
+      - AWS_ACCESS_KEY_ID=test
+      - AWS_SECRET_ACCESS_KEY=test
+      - AWS_DEFAULT_REGION=us-east-1
+      - LOCALSTACK_HOST=localstack
+      - LOCALSTACK_PORT=4566
+    networks:
+      - my-network
+
+  localstack:
+    image: localstack/localstack
+    container_name: localstack
+    ports:
+      - "4566:4566"
+    environment:
+      - SERVICES=apigateway
+      - AWS_ACCESS_KEY_ID=test
+      - AWS_SECRET_ACCESS_KEY=test
+    networks:
+      - my-network
+    dns:
+      - 8.8.8.8
+      - 8.8.4.4
+
+networks:
+  my-network:
+    driver: bridge
