@@ -28,11 +28,26 @@ services:
       - SERVICES=apigateway
       - AWS_ACCESS_KEY_ID=test
       - AWS_SECRET_ACCESS_KEY=test
+      - AWS_DEFAULT_REGION=us-east-1
     networks:
       - my-network
     dns:
       - 8.8.8.8
       - 8.8.4.4
+
+  terraform:
+    build:
+      context: .
+      dockerfile: Dockerfile.terraform
+    container_name: terraform-container
+    volumes:
+      - ./infrastructure:/app/infrastructure
+    environment:
+      - AWS_ACCESS_KEY_ID=test
+      - AWS_SECRET_ACCESS_KEY=test
+      - AWS_DEFAULT_REGION=us-east-1
+    networks:
+      - my-network
 
 networks:
   my-network:
