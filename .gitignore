@@ -21,7 +21,6 @@
 #cache
 __pycache__/
 
-poetry.lock
 
 _data/
 .vercel
