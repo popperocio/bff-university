@@ -9,7 +9,7 @@ create-venv:
 
 start-app:
 	export PYTHONPATH=$(pwd):$PYTHONPATH
-	poetry run uvicorn main:app
+	poetry run uvicorn main:app --port=8080
 
 format:
 	autoflake --remove-all-unused-imports --remove-unused-variables --recursive --in-place . --exclude=__init__.py,venv,.venv;
