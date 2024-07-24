@@ -49,7 +49,11 @@ jobs:
 
       - name: Static analysis
         run: |
-          docker-compose exec -T app poetry run flake8
+          docker-compose exec -T app poetry run autoflake --remove-all-unused-imports --remove-unused-variables --recursive --in-place . --exclude=__init__.py,venv,.venv
+          docker-compose exec -T app poetry run black adapters/ api/ core/ factories/
+          docker-compose exec -T app poetry run isort adapters/ api/ core/ factories/
+          docker-compose exec -T app poetry run flake8 adapters/ api/ core/ factories/
+
 
       - name: Unit testing
         run: |
