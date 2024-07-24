@@ -16,23 +16,23 @@ jobs:
       - name: Set up Docker
         uses: docker/setup-buildx-action@v2
       
-     - name: Create .env file
-        run: |
-          echo "RAPID_API_URL=$RAPID_API_URL" >> .env
-          echo "RAPID_API_HOST=$RAPID_API_HOST" >> .env
-          echo "RAPID_API_KEY=$RAPID_API_KEY" >> .env
-          echo "MONGO_DB_URL=$MONGO_DB_URL" >> .env
-          echo "MONGO_DB_DATABASE=$MONGO_DB_DATABASE" >> .env
-          echo "MONGO_DB_COLLECTION=$MONGO_DB_COLLECTION" >> .env
-          echo "FRONTEND_URL=$FRONTEND_URL" >> .env
-        env:
-          RAPID_API_URL: ${{ secrets.RAPID_API_URL }}
-          RAPID_API_HOST: ${{ secrets.RAPID_API_HOST }}
-          RAPID_API_KEY: ${{ secrets.RAPID_API_KEY }}
-          MONGO_DB_URL: ${{ secrets.MONGO_DB_URL }}
-          MONGO_DB_DATABASE: ${{ secrets.MONGO_DB_DATABASE }}
-          MONGO_DB_COLLECTION: ${{ secrets.MONGO_DB_COLLECTION }}
-          FRONTEND_URL: ${{ secrets.FRONTEND_URL }}
+      - name: Create .env file
+          run: |
+            echo "RAPID_API_URL=$RAPID_API_URL" >> .env
+            echo "RAPID_API_HOST=$RAPID_API_HOST" >> .env
+            echo "RAPID_API_KEY=$RAPID_API_KEY" >> .env
+            echo "MONGO_DB_URL=$MONGO_DB_URL" >> .env
+            echo "MONGO_DB_DATABASE=$MONGO_DB_DATABASE" >> .env
+            echo "MONGO_DB_COLLECTION=$MONGO_DB_COLLECTION" >> .env
+            echo "FRONTEND_URL=$FRONTEND_URL" >> .env
+          env:
+            RAPID_API_URL: ${{ secrets.RAPID_API_URL }}
+            RAPID_API_HOST: ${{ secrets.RAPID_API_HOST }}
+            RAPID_API_KEY: ${{ secrets.RAPID_API_KEY }}
+            MONGO_DB_URL: ${{ secrets.MONGO_DB_URL }}
+            MONGO_DB_DATABASE: ${{ secrets.MONGO_DB_DATABASE }}
+            MONGO_DB_COLLECTION: ${{ secrets.MONGO_DB_COLLECTION }}
+            FRONTEND_URL: ${{ secrets.FRONTEND_URL }}
 
       - name: Set up Docker Compose
         run: |
