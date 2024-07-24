@@ -1,0 +1,41 @@
+name: cd-to-preprod
+
+on:
+  push:
+    branches:
+      - add-config-for-cd 
+
+jobs:
+  continuous-integration-checks:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v2
+
+      - name: Set up Docker Compose
+        uses: docker/compose-action@v2
+
+      - name: Build and run Docker Compose
+        run: |
+          docker-compose -f docker-compose.yml build
+          docker-compose -f docker-compose.yml up -d
+
+      - name: Install dependencies
+        run: |
+          docker-compose exec -T app poetry install
+
+      - name: Static analysis
+        run: |
+          docker-compose exec -T app poetry run flake8
+
+      - name: Unit testing
+        run: |
+          docker-compose exec -T app poetry run pytest
+
+      - name: Shut down Docker Compose
+        run: |
+          docker-compose -f docker-compose.yml down

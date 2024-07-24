@@ -17,7 +17,7 @@ def test_create_reservation_returns_200_status_code_when_reservation_is_stored_s
     app = mock_fastapi_app()
     client = TestClient(app)
     request = reservation_factory()
-    data = request.dict()
+    data = request.model_dump()
     json_data = json.dumps(data)
     expected_response = ReservationResponse(
         reservation_id="1",
@@ -37,7 +37,7 @@ def test_create_reservation_returns_200_status_code_when_reservation_is_stored_s
         "core.src.usecases.reservations.create.usecase.CreateReservation.execute",
         return_value=expected_response,
     )
-    response = client.post("/reservation/", data=json_data)
+    response = client.post("/reservation/", content=json_data)
 
     assert response.status_code == 200
 
@@ -51,7 +51,7 @@ def test_create_reservation_returns_400_status_code_when_business_exception_occu
     app = mock_fastapi_app()
     client = TestClient(app)
     request = reservation_factory()
-    data = request.dict()
+    data = request.model_dump()
     json_data = json.dumps(data)
     expected_message = {"detail": "Business logic error"}
 
@@ -60,7 +60,7 @@ def test_create_reservation_returns_400_status_code_when_business_exception_occu
         side_effect=BusinessException("Business logic error"),
     )
 
-    response = client.post(url="/reservation/", data=json_data)
+    response = client.post(url="/reservation/", content=json_data)
 
     assert response.status_code == 400
     assert response.json() == expected_message
@@ -75,7 +75,7 @@ def test_create_reservation_returns_500_status_code_when_repository_exception_oc
     app = mock_fastapi_app()
     client = TestClient(app)
     request = reservation_factory()
-    data = request.dict()
+    data = request.model_dump()
     json_data = json.dumps(data)
     expected_message = {
         "detail": "Exception while executing Create Reservation in Reservation"
@@ -88,7 +88,7 @@ def test_create_reservation_returns_500_status_code_when_repository_exception_oc
         ),
     )
 
-    response = client.post(url="/reservation/", data=json_data)
+    response = client.post(url="/reservation/", content=json_data)
 
     assert response.status_code == 500
     assert response.json() == expected_message
