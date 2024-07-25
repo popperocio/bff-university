@@ -33,5 +33,5 @@ autoflake = "^2.2.0"
 [tool.black]
 exclude = '/(__init__.py|venv|.venv)/'
 
-[flake8]
+[tool.flake8]
 exclude = __init__.py, venv, .venv
