@@ -29,3 +29,9 @@ isort = "^5.12.0"
 black = "^23.3.0"
 flake8 = "^6.0.0"
 autoflake = "^2.2.0"
+
+[tool.black]
+exclude = '/(__init__.py|venv|.venv)/'
+
+[flake8]
+exclude = __init__.py, venv, .venv
