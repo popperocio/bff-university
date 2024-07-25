@@ -31,7 +31,7 @@ flake8 = "^6.0.0"
 autoflake = "^2.2.0"
 
 [tool.black]
-exclude = '/(__init__.py|venv|.venv)/'
+exclude = __init__.py
 
 [tool.flake8]
-exclude = __init__.py, venv, .venv
+exclude = __init__.py
