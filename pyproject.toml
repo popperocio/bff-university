@@ -36,6 +36,10 @@ exclude = '''
     __init__\.py
 )/
 '''
+line-length = 110
 
 [tool.flake8]
 exclude = '__init__.py' 
+max-line-length = 110
+per-file-ignores =
+    __init__.py:F401
