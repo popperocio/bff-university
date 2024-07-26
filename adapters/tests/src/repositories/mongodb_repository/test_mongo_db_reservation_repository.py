@@ -10,20 +10,24 @@ from core.src.exceptions import (ReservationConflictException,
 @pytest.mark.asyncio
 async def test__mongo_db_reservation_repository_returns_reservation_id_when_successful_creation(
     set_up_mongo_db_instance: Callable,
-    mocker: MockerFixture,
     reservation_factory: Callable,
 ):
-    mocker.patch(
-        "adapters.src.repositories.mongodb_repository.mongo_db_repository.MongoDBReservationRepository.create_reservation",  # noqa
-        return_value="1",
-    )
     mongo_db_repository = set_up_mongo_db_instance()
     reservation = reservation_factory()
-    expected_response = "1"
 
     response = await mongo_db_repository.create_reservation(reservation)
-
-    assert response == expected_response
+    
+    assert response is not None
+    assert response.hotel_id == reservation.hotel_id
+    assert response.user_id == reservation.user_id
+    assert response.room_id == reservation.room_id
+    assert response.checkin_date == reservation.checkin_date
+    assert response.checkout_date == reservation.checkout_date
+    assert response.price == reservation.price
+    assert response.guest_name == reservation.guest_name
+    assert response.nights == reservation.nights
+    assert response.number_of_guests == reservation.number_of_guests
+    assert response.email == reservation.email
 
 
 @pytest.mark.asyncio
