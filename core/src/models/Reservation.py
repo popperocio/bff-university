@@ -14,3 +14,17 @@ class Reservation(NamedTuple):
     checkout_date: date
     number_of_guests: int
     email: str
+
+
+class ReservationResponse(NamedTuple):
+    reservation_id: str
+    hotel_id: int
+    user_id: int
+    room_id: int
+    guest_name: str
+    nights: int
+    checkin_date: str
+    checkout_date: str
+    number_of_guests: int
+    price: Optional[float]
+    email: str

@@ -7,6 +7,7 @@ from core.src import ReservationRequest
 from core.src.exceptions import (ReservationBusinessException,
                                  ReservationConflictException,
                                  ReservationRepositoryException)
+from core.src.models import ReservationResponse
 from core.src.repositories import ReservationRepository
 
 
@@ -36,8 +37,20 @@ class MongoDBReservationRepository(ReservationRepository):
                 raise ReservationConflictException(
                     "Room already booked for the given dates"
                 )
-            response = self.collection.insert_one(reservation.dict())
+            response = self.collection.insert_one(reservation.model_dump())
             reservation_id = str(response.inserted_id)
-            return reservation_id
+            return ReservationResponse(
+                reservation_id=reservation_id,
+                hotel_id=reservation.hotel_id,
+                user_id=reservation.user_id,
+                room_id=reservation.room_id,
+                price=reservation.price,
+                guest_name=reservation.guest_name,
+                nights=reservation.nights,
+                checkin_date=reservation.checkin_date,
+                checkout_date=reservation.checkout_date,
+                number_of_guests=reservation.number_of_guests,
+                email=reservation.email,
+            )
         except ReservationRepositoryException:
             raise ReservationBusinessException("Create Reservation")
