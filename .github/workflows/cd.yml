@@ -33,6 +33,10 @@ jobs:
           echo "MONGO_DB_COLLECTION=${{ secrets.MONGO_DB_COLLECTION }}" >> .env
           echo "FRONTEND_URL=${{ secrets.FRONTEND_URL }}" >> .env
 
+      - name: Print .env file
+        run: |
+          cat .env
+
       - name: Install dependencies
         run: |
           poetry install
