@@ -11,6 +11,7 @@ cffi==1.16.0
 charset-normalizer==3.3.2
 cleo==2.1.0
 click==8.1.7
+coverage==6.5.0
 crashtest==0.4.1
 cryptography==42.0.7
 dill==0.3.6
@@ -20,6 +21,7 @@ dnspython==2.6.1
 dulwich==0.21.7
 ecdsa==0.19.0
 exceptiongroup==1.2.1
+faker = 26.0.0
 fastapi==0.103.1
 fastjsonschema==2.19.1
 filelock==3.14.0
