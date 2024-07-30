@@ -40,8 +40,9 @@ jobs:
           poetry run flake8 adapters/ api/ core/ factories/
       - name: Test with pytest and coverage
         run: |
-          poetry run coverage run -m pytest
+          poetry run python -m dotenv run -- pytest
           poetry run coverage report -m
+          poetry run coverage html
       - name: Run application (for verification)
         run: |
           poetry run uvicorn main:app --host 0.0.0.0 --port 8080
