@@ -40,7 +40,7 @@ jobs:
           poetry run flake8 adapters/ api/ core/ factories/
       - name: Test with pytest and coverage
         run: |
-          poetry run python -m dotenv run -- pytest
+          poetry run coverage run -m pytest
           poetry run coverage report -m
       - name: Run application (for verification)
         run: |
