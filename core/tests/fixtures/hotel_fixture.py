@@ -1,14 +1,12 @@
 import faker
 import pytest
 
-from core.src.models import Hotel
-
 faker = faker.Faker()
 
 
 @pytest.fixture
 def expected_hotel() -> dict:
-   return {
+    return {
         "hotel_id": faker.random_int(),
         "hotel_name": faker.word(),
         "hotel_price": faker.random_int(),
@@ -19,4 +17,3 @@ def expected_hotel() -> dict:
         "hotel_image": faker.word(),
         "hotel_country": faker.word(),
     }
-    

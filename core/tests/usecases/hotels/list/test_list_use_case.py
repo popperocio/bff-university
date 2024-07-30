@@ -9,7 +9,6 @@ from factories.repositories import memory_hotel_repository
 
 
 class TestListHotel:
-
     @pytest.mark.asyncio
     async def test_should_return_empty_list_when_no_hotels_found(self) -> None:
         hotel_repository: HotelRepository = memory_hotel_repository()

@@ -11,7 +11,6 @@ from core.src.usecases.reservations import (ReservationRequest,
 
 
 class MemoryReservationRepository(ReservationRepository):
-
     reservations: List[Reservation]
     current_id = str
 
@@ -46,7 +45,7 @@ class MemoryReservationRepository(ReservationRepository):
             self.reservations.append(new_reservation)
             return reservation_id
         except ReservationRepositoryException:
-            ReservationBusinessException("Create Reservation")
+            raise ReservationBusinessException("Create Reservation")
 
     def _has_conflict(self, new_reservation: Reservation) -> bool:
         """Check if there is a conflict with existing reservations."""

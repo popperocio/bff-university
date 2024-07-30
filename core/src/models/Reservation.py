@@ -26,5 +26,5 @@ class ReservationResponse(NamedTuple):
     checkin_date: str
     checkout_date: str
     number_of_guests: int
-    price: Optional[float]
+    price: float
     email: str

@@ -11,7 +11,6 @@ from factories.repositories import memory_reservation_repository
 
 
 class TestCreateReservation:
-
     @pytest.mark.asyncio
     async def test_should_return_a_reservation_of_a_given_hotel_when_reponse_is_successful(
         self,
