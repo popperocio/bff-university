@@ -42,6 +42,3 @@ jobs:
         run: |
           poetry run python -m dotenv run coverage run -m pytest
           poetry run coverage report -m
-      - name: Run application (for verification)
-        run: |
-          poetry run uvicorn main:app --host 0.0.0.0 --port 8080
