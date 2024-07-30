@@ -1,0 +1,45 @@
+name: cd-to-preprod
+on:
+  push:
+    branches:
+      - add-config-for-cd
+jobs:
+  continuous-integration-checks:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.9'
+      - name: Install Poetry
+        run: |
+          curl -sSL https://install.python-poetry.org | python3 -
+          echo "$HOME/.local/bin" >> $GITHUB_PATH
+      - name: Create .env file
+        run: |
+          echo "MONGO_DB_URL=${{ secrets.MONGO_DB_URL }}" >> .env
+          echo "MONGO_DB_DATABASE=${{ secrets.MONGO_DB_DATABASE }}" >> .env
+          echo "MONGO_DB_COLLECTION=${{ secrets.MONGO_DB_COLLECTION }}" >> .env
+          echo "FRONTEND_URL=${{ secrets.FRONTEND_URL }}" >> .env
+          echo "RAPID_API_URL=${{ secrets.RAPID_API_URL }}" >> .env
+      - name: Print .env file
+        run: |
+          cat .env
+      - name: Install dependencies
+        run: |
+          poetry install
+      - name: Static analysis
+        run: |
+          poetry run autoflake --remove-all-unused-imports --remove-unused-variables --recursive --in-place . --exclude=__init__.py,venv,.venv
+          poetry run black adapters/ api/ core/ factories/
+          poetry run isort adapters/ api/ core/ factories/
+          poetry run flake8 adapters/ api/ core/ factories/
+      - name: Test with pytest and coverage
+        run: |
+          poetry run python -m dotenv run -- pytest
+          poetry run coverage report -m
+      - name: Run application (for verification)
+        run: |
+          poetry run uvicorn main:app --host 0.0.0.0 --port 8080

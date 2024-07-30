@@ -9,7 +9,7 @@ from core.src.exceptions import (ReservationBusinessException,
                                  ReservationRepositoryException)
 from core.src.models import ReservationResponse
 from core.src.repositories import ReservationRepository
-
+from pymongo.errors import DuplicateKeyError
 
 class MongoDBReservationRepository(ReservationRepository):
     def __init__(self, mongodb_url: str, db_name: str, collection_name: str) -> None:
@@ -37,6 +37,10 @@ class MongoDBReservationRepository(ReservationRepository):
                 raise ReservationConflictException(
                     "Room already booked for the given dates"
                 )
+            if checkin_date >= checkout_date:
+                raise ReservationBusinessException("Check in date must be before check out date")
+            if not reservation.guest_name or not reservation.email:
+                raise ReservationBusinessException("Guest name and email are required")
             response = self.collection.insert_one(reservation.model_dump())
             reservation_id = str(response.inserted_id)
             return ReservationResponse(
@@ -51,6 +55,10 @@ class MongoDBReservationRepository(ReservationRepository):
                 checkout_date=reservation.checkout_date,
                 number_of_guests=reservation.number_of_guests,
                 email=reservation.email,
+            )
+        except DuplicateKeyError:
+            raise ReservationConflictException(
+               "Room already booked for the given dates"
             )
         except ReservationRepositoryException:
             raise ReservationBusinessException("Create Reservation")
