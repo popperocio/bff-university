@@ -24,6 +24,7 @@ jobs:
           echo "MONGO_DB_COLLECTION=${{ secrets.MONGO_DB_COLLECTION }}" >> .env
           echo "FRONTEND_URL=${{ secrets.FRONTEND_URL }}" >> .env
           echo "RAPID_API_URL=${{ secrets.RAPID_API_URL }}" >> .env
+          echo "RAPID_API_HOST=${{ secrets.RAPID_API_HOST }}" >> .env
       - name: Print .env file
         run: |
           cat .env
