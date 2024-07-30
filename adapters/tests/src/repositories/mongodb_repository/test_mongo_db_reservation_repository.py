@@ -2,10 +2,11 @@ from typing import Callable
 
 import pytest
 
-from core.src.exceptions import ReservationBusinessException, ReservationConflictException
+from core.src.exceptions import (ReservationBusinessException,
+                                 ReservationConflictException)
 from core.src.usecases.reservations import ReservationRequest
 
-    
+
 @pytest.mark.asyncio
 async def test__mongo_db_reservation_repository_returns_reservation_id_when_successful_creation(
     set_up_mongo_db_instance,
@@ -28,15 +29,15 @@ async def test__mongo_db_reservation_repository_returns_reservation_id_when_succ
     assert response.number_of_guests == reservation.number_of_guests
     assert response.email == reservation.email
 
+
 @pytest.mark.asyncio
 async def test__mongo_db_repository_create_reservation_throws_exception_when_guest_name_missing(
-    reservation_factory: Callable,
-    set_up_mongo_db_instance
+    reservation_factory: Callable, set_up_mongo_db_instance
 ):
     mongo_db_repository = set_up_mongo_db_instance
     reservation = reservation_factory()
     reservation_dict = reservation.dict()
-    reservation_dict['guest_name'] = ''
+    reservation_dict["guest_name"] = ""
     modified_reservation = ReservationRequest(**reservation_dict)
     expected_message = "Guest name and email are required"
 
@@ -44,15 +45,16 @@ async def test__mongo_db_repository_create_reservation_throws_exception_when_gue
         await mongo_db_repository.create_reservation(modified_reservation)
 
     assert str(captured_exception.value) == expected_message
+
+
 @pytest.mark.asyncio
 async def test__mongo_db_repository_create_reservation_throws_exception_when_email_missing(
-    reservation_factory: Callable,
-    set_up_mongo_db_instance
+    reservation_factory: Callable, set_up_mongo_db_instance
 ):
     mongo_db_repository = set_up_mongo_db_instance
     reservation = reservation_factory()
     reservation_dict = reservation.dict()
-    reservation_dict['email'] = ''
+    reservation_dict["email"] = ""
     modified_reservation = ReservationRequest(**reservation_dict)
     expected_message = "Guest name and email are required"
 
@@ -60,17 +62,17 @@ async def test__mongo_db_repository_create_reservation_throws_exception_when_ema
         await mongo_db_repository.create_reservation(modified_reservation)
 
     assert str(captured_exception.value) == expected_message
-    
+
+
 @pytest.mark.asyncio
 async def test__mongo_db_repository_create_reservation_throws_exception_when_wrong_date(
-    reservation_factory: Callable,
-    set_up_mongo_db_instance
+    reservation_factory: Callable, set_up_mongo_db_instance
 ):
     mongo_db_repository = set_up_mongo_db_instance
     reservation = reservation_factory()
     reservation_dict = reservation.dict()
-    reservation_dict['checkin_date'] = '2025-08-15'
-    reservation_dict['check_out_date'] = '2025-07-15'
+    reservation_dict["checkin_date"] = "2025-08-15"
+    reservation_dict["check_out_date"] = "2025-07-15"
     modified_reservation = ReservationRequest(**reservation_dict)
     expected_message = "Check in date must be before check out date"
 
@@ -78,7 +80,8 @@ async def test__mongo_db_repository_create_reservation_throws_exception_when_wro
         await mongo_db_repository.create_reservation(modified_reservation)
 
     assert str(captured_exception.value) == expected_message
-    
+
+
 @pytest.mark.asyncio
 async def test_mongo_db_reservation_throws_exception_when_conflicting_reservation(
     set_up_mongo_db_instance,

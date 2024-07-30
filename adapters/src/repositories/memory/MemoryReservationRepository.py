@@ -11,7 +11,6 @@ from core.src.usecases.reservations import (ReservationRequest,
 
 
 class MemoryReservationRepository(ReservationRepository):
-
     reservations: List[Reservation]
     current_id = str
 

@@ -5,7 +5,6 @@ from core.src.models import Hotel
 
 
 class HotelRepository(ABC):
-
     @abstractmethod
     def list_all(self) -> List[Hotel]:
         raise NotImplementedError
