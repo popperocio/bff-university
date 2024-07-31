@@ -16,5 +16,7 @@ COPY api /app/api
 COPY core /app/core
 COPY factories /app/factories
 COPY adapters /app/adapters
+COPY setup.cfg /app/setup.cfg
+COPY conftest.py /app/conftest.py
 
 CMD [ "poetry", "run", "uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8080"]
