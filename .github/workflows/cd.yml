@@ -6,6 +6,15 @@ on:
 jobs:
   continuous-integration-checks:
     runs-on: ubuntu-latest
+
+    services:
+      mongo:
+        image: mongo:3.6
+        ports:
+          - 28017:27017
+        env:
+          MONGO_INITDB_DATABASE: dev-mongo
+          
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
