@@ -16,3 +16,6 @@ format:
 	black adapters/ api/ core/ factories/
 	isort  adapters/ api/ core/ factories/
 	flake8  adapters/ api/ core/ factories/
+
+test:
+	poetry run pytest
