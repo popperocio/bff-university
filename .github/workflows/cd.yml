@@ -2,7 +2,7 @@ name: cd-to-preprod
 on:
   push:
     branches:
-      - main
+      - add-missing-dependencies
 jobs:
   continuous-integration-checks:
     runs-on: ubuntu-latest
