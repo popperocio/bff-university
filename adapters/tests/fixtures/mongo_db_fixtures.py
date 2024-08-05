@@ -1,16 +1,12 @@
 from pytest import fixture
-from pytest_mock_resources import create_mongo_fixture
 
 from adapters.src.repositories import MongoDBReservationRepository
 
-mongo = create_mongo_fixture()
-
-
 @fixture
-def set_up_mongo_db_instance(mongo) -> MongoDBReservationRepository:
-    host = mongo.pmr_credentials.host
-    port = mongo.pmr_credentials.port
-    database_name = mongo.pmr_credentials.database
+def set_up_mongo_db_instance() -> MongoDBReservationRepository:
+    host = "mongodb"
+    port = 27017
+    database_name = "mongodb"
     uri = f"mongodb://{host}:{port}/{database_name}"
 
     return MongoDBReservationRepository(
