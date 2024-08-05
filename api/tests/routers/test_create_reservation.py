@@ -8,7 +8,6 @@ import mongomock
 from core.src import ReservationResponse
 from core.src.exceptions import BusinessException, RepositoryException
 
-
 def test_create_reservation_returns_200_status_code_when_reservation_is_stored_successfully(
     mocker: MockerFixture,
     mock_fastapi_app: Callable,
@@ -52,7 +51,7 @@ def test_create_reservation_returns_200_status_code_when_reservation_is_stored_s
     response = client.post("/reservation/", content=json_data)
 
     assert response.status_code == 200
-
+    
 
 def test_create_reservation_returns_400_status_code_when_business_exception_occurs(
     mocker: MockerFixture,

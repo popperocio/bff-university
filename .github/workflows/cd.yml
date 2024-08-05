@@ -6,17 +6,19 @@ on:
 jobs:
   continuous-integration-checks:
     runs-on: ubuntu-latest
+          
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
-      - name: Set up Python
-        uses: actions/setup-python@v4
-        with:
-          python-version: '3.9'
-      - name: Install Poetry
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v2
+      
+      - name: Install Docker Compose
         run: |
-          curl -sSL https://install.python-poetry.org | python3 -
-          echo "$HOME/.local/bin" >> $GITHUB_PATH
+          sudo apt-get update
+          sudo apt-get install -y docker-compose
+
       - name: Create .env file
         run: |
           echo "MONGO_DB_URL=${{ secrets.MONGO_DB_URL }}" >> .env
@@ -26,19 +28,28 @@ jobs:
           echo "RAPID_API_URL=${{ secrets.RAPID_API_URL }}" >> .env
           echo "RAPID_API_KEY=${{ secrets.RAPID_API_KEY }}" >> .env
           echo "RAPID_API_HOST=${{ secrets.RAPID_API_HOST }}" >> .env
-      - name: Print .env file
+
+      - name: Build and start services
         run: |
-          cat .env
+          docker-compose -f docker-compose.yml build
+          docker-compose -f docker-compose.yml up -d
+
       - name: Install dependencies
         run: |
-          poetry install
+          docker-compose exec -T app poetry install
+
       - name: Static analysis
         run: |
-          poetry run autoflake --remove-all-unused-imports --remove-unused-variables --recursive --in-place . --exclude=__init__.py,venv,.venv
-          poetry run black adapters/ api/ core/ factories/
-          poetry run isort adapters/ api/ core/ factories/
-          poetry run flake8 adapters/ api/ core/ factories/
+          docker-compose exec -T app poetry run autoflake --remove-all-unused-imports --remove-unused-variables --recursive --in-place . --exclude=__init__.py,venv,.venv
+          docker-compose exec -T app poetry run black adapters/ api/ core/ factories/
+          docker-compose exec -T app poetry run isort adapters/ api/ core/ factories/
+          docker-compose exec -T app poetry run flake8 adapters/ api/ core/ factories/ 
+
       - name: Test with pytest and coverage
         run: |
-          poetry run python -m dotenv run coverage run -m pytest
-          poetry run coverage report -m
+          docker-compose exec -T app poetry run coverage run -m pytest
+          docker-compose exec -T app poetry run coverage report -m
+
+      - name: Shut down Docker Compose
+        run: |
+          docker-compose -f docker-compose.yml down
