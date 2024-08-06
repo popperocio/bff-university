@@ -2,7 +2,7 @@ name: cd-to-preprod
 on:
   push:
     branches:
-      - main
+      - add-docker-to-cd
 jobs:
   continuous-integration-checks:
     runs-on: ubuntu-latest
@@ -22,6 +22,8 @@ jobs:
       - name: Create .env file
         run: |
           echo "MONGO_DB_URL=${{ secrets.MONGO_DB_URL }}" >> .env
+          echo "MONGO_DB_HOST=${{ secrets.MONGO_DB_HOST }}" >> .env
+          echo "MONGO_DB_PORT=${{ secrets.MONGO_DB_PORT }}" >> .env
           echo "MONGO_DB_DATABASE=${{ secrets.MONGO_DB_DATABASE }}" >> .env
           echo "MONGO_DB_COLLECTION=${{ secrets.MONGO_DB_COLLECTION }}" >> .env
           echo "FRONTEND_URL=${{ secrets.FRONTEND_URL }}" >> .env
