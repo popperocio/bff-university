@@ -1,7 +1,9 @@
 import os
+
 from pytest import fixture
 
 from adapters.src.repositories import MongoDBReservationRepository
+
 
 @fixture
 def set_up_mongo_db_instance() -> MongoDBReservationRepository:

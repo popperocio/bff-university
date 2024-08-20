@@ -1,12 +1,14 @@
 import json
 from typing import Callable
 
-from fastapi.testclient import TestClient
-from adapters.src.repositories import MemoryReservationRepository
-from pytest_mock import MockerFixture
 import mongomock
+from fastapi.testclient import TestClient
+from pytest_mock import MockerFixture
+
+from adapters.src.repositories import MemoryReservationRepository
 from core.src import ReservationResponse
 from core.src.exceptions import BusinessException, RepositoryException
+
 
 def test_create_reservation_returns_200_status_code_when_reservation_is_stored_successfully(
     mocker: MockerFixture,
@@ -16,14 +18,12 @@ def test_create_reservation_returns_200_status_code_when_reservation_is_stored_s
 ):
     mock_db = mongomock.MongoClient().db
     mocker.patch(
-        'adapters.src.repositories.memory.MemoryReservationRepository',
-        new=mocker.MagicMock(
-            collection=mock_db.reservations
-        )
+        "adapters.src.repositories.memory.MemoryReservationRepository",
+        new=mocker.MagicMock(collection=mock_db.reservations),
     )
     mocker.patch(
-        'factories.config.repositories.reservation.ReservationRepositoryConfig.get_repository',
-        return_value=MemoryReservationRepository()
+        "factories.config.repositories.reservation.ReservationRepositoryConfig.get_repository",
+        return_value=MemoryReservationRepository(),
     )
     app = mock_fastapi_app()
     client = TestClient(app)
@@ -51,7 +51,7 @@ def test_create_reservation_returns_200_status_code_when_reservation_is_stored_s
     response = client.post("/reservation/", content=json_data)
 
     assert response.status_code == 200
-    
+
 
 def test_create_reservation_returns_400_status_code_when_business_exception_occurs(
     mocker: MockerFixture,
@@ -61,14 +61,12 @@ def test_create_reservation_returns_400_status_code_when_business_exception_occu
 ):
     mock_db = mongomock.MongoClient().db
     mocker.patch(
-        'adapters.src.repositories.memory.MemoryReservationRepository',
-        new=mocker.MagicMock(
-            collection=mock_db.reservations
-        )
+        "adapters.src.repositories.memory.MemoryReservationRepository",
+        new=mocker.MagicMock(collection=mock_db.reservations),
     )
     mocker.patch(
-        'factories.config.repositories.reservation.ReservationRepositoryConfig.get_repository',
-        return_value=MemoryReservationRepository()
+        "factories.config.repositories.reservation.ReservationRepositoryConfig.get_repository",
+        return_value=MemoryReservationRepository(),
     )
     app = mock_fastapi_app()
     client = TestClient(app)
@@ -96,14 +94,12 @@ def test_create_reservation_returns_500_status_code_when_repository_exception_oc
 ):
     mock_db = mongomock.MongoClient().db
     mocker.patch(
-        'adapters.src.repositories.memory.MemoryReservationRepository',
-        new=mocker.MagicMock(
-            collection=mock_db.reservations
-        )
+        "adapters.src.repositories.memory.MemoryReservationRepository",
+        new=mocker.MagicMock(collection=mock_db.reservations),
     )
     mocker.patch(
-        'factories.config.repositories.reservation.ReservationRepositoryConfig.get_repository',
-        return_value=MemoryReservationRepository()
+        "factories.config.repositories.reservation.ReservationRepositoryConfig.get_repository",
+        return_value=MemoryReservationRepository(),
     )
     app = mock_fastapi_app()
     client = TestClient(app)
