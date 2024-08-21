@@ -3,7 +3,7 @@ from typing import NamedTuple, Optional
 
 
 class Reservation(NamedTuple):
-    reservation_id: int
+    reservation_id: str
     hotel_id: int
     user_id: int
     room_id: int

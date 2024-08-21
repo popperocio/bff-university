@@ -18,7 +18,7 @@ async def test__mongo_db_reservation_repository_returns_reservation_id_when_succ
     response = await mongo_db_repository.create_reservation(reservation)
 
     assert response is not None
-    assert response == reservation.hotel_id
+    assert isinstance(response, str)
 
 
 @pytest.mark.asyncio
