@@ -2,7 +2,7 @@ name: cd-to-preprod
 on:
   push:
     branches:
-      - fix-use-case-response
+      - main
 jobs:
   continuous-integration-checks:
     runs-on: ubuntu-latest
