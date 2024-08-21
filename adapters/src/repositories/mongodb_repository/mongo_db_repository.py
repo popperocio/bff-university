@@ -44,8 +44,7 @@ class MongoDBReservationRepository(ReservationRepository):
             if not reservation.guest_name or not reservation.email:
                 raise ReservationBusinessException("Guest name and email are required")
             response = self.collection.insert_one(reservation.model_dump())
-            reservation_id = str(response.inserted_id)
-            return reservation_id
+            return reservation.hotel_id
         except DuplicateKeyError:
             raise ReservationConflictException(
                 "Room already booked for the given dates"

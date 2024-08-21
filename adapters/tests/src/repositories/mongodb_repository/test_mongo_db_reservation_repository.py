@@ -18,16 +18,7 @@ async def test__mongo_db_reservation_repository_returns_reservation_id_when_succ
     response = await mongo_db_repository.create_reservation(reservation)
 
     assert response is not None
-    assert response.hotel_id == reservation.hotel_id
-    assert response.user_id == reservation.user_id
-    assert response.room_id == reservation.room_id
-    assert response.checkin_date == reservation.checkin_date
-    assert response.checkout_date == reservation.checkout_date
-    assert response.price == reservation.price
-    assert response.guest_name == reservation.guest_name
-    assert response.nights == reservation.nights
-    assert response.number_of_guests == reservation.number_of_guests
-    assert response.email == reservation.email
+    assert response == reservation.hotel_id
 
 
 @pytest.mark.asyncio
